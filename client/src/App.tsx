@@ -4,6 +4,7 @@ import NotFound from './pages/NotFound';
 import Dashboard from "./pages/Dashboard";
 import AppLayout from "./components/layout/AppLayout";
 import { theme } from "./ui/theme";
+import CreateNote from './pages/CreateNote';
 
 
 function App() {
@@ -22,6 +23,10 @@ function App() {
           element={
           <Dashboard />
           }
+          />
+          <Route 
+          path="/notes/new"
+          element={<CreateNote />}
           />
           <Route
             path="bookmarks"

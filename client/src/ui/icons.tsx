@@ -4,7 +4,11 @@ import {
     Dashboard as DashboardIcon,
     Bookmark as BookmarkIcon,
     Archive as ArchiveIcon,
-    Settings as SettingsIcon
+    Settings as SettingsIcon,
+    FileDownload as ExportIcon,
+    Add as AddIcon,
+    ArrowBack as ArrowBackIcon,
+    Save as SaveIcon
 }   
 from "@mui/icons-material";
 
@@ -15,5 +19,9 @@ export {
     DashboardIcon,
     BookmarkIcon,
     ArchiveIcon,
-    SettingsIcon
+    SettingsIcon,
+    ExportIcon,
+    AddIcon,
+    ArrowBackIcon,
+    SaveIcon
 }

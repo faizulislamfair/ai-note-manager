@@ -186,7 +186,18 @@ const renderMenus = () => (
             </Drawer>
         </Box>
 
-        <Outlet />  
+        <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
+          bgcolor: "background.default",
+          minHeight: "100vh",
+        }}
+      >
+        <Toolbar /> 
+        <Outlet />
+      </Box> 
       </Box>
   )
 }
