@@ -1,7 +1,10 @@
-import { Box, Button, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+import { Alert, Box, Button, Grid, Paper, Snackbar, Stack, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ArrowBackIcon, SaveIcon } from "../ui/icons";
 import MarkdownEditor from "../components/editor/MarkdownEditor";
+import type { CreateNoteRequest } from "../types";
+import MetadataForm from './../components/notes/Metadataform';
 
 
 
@@ -9,6 +12,102 @@ export default function CreateNote() {
 
     const navigate = useNavigate();
 
+    const [noteData, setNoteData] = useState<CreateNoteRequest>({
+    title: "",
+    content: "",
+    summary: "",
+    keyPoints: [],
+    tags: [],
+    sentiment: {
+      score: 0,
+      label: "neutral",
+    },
+  });
+
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNoteData((prev) => ({
+      ...prev,
+      title: event.target.value,
+    }));
+
+     if (errors.title) {
+      setErrors((prev) => ({ ...prev, title: "" }));
+    }
+  };
+
+
+
+  const handleContentChange = (content: string) => {
+    setNoteData((prev) => ({
+      ...prev,
+      content,
+    }));
+    // Clear content error when user starts typing
+    if (errors.content) {
+      setErrors((prev) => ({ ...prev, content: "" }));
+    }
+  };
+
+
+
+  const handleMetadataChange = (metadata: Partial<CreateNoteRequest>) => {
+    setNoteData((prev) => ({
+      ...prev,
+      ...metadata,
+    }));
+  };
+
+
+
+   const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    if (!noteData.title.trim()) {
+      newErrors.title = "Title is required";
+    }
+
+    if (!noteData.content.trim()) {
+      newErrors.content = "Content is required";
+    }
+
+    if (!noteData.summary.trim()) {
+      newErrors.summary = "Summary is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+
+
+  const handleSave = async () => {
+    if (!validateForm()) {
+      setErrorMessage("Please fill in all required fields");
+      return;
+    }
+
+    // try {
+    //   await createNoteMutation.mutateAsync(noteData);
+    //   setSuccessMessage("Note created successfully!");
+
+    //   setTimeout(() => {
+    //     navigate("/");
+    //   }, 1500);
+    // } catch (error) {
+    //   console.error("Failed to create note:", error);
+    //   setErrorMessage(
+    //     error instanceof Error
+    //       ? error.message
+    //       : "Failed to create note. Please try again."
+    //   );
+    // }
+  };
 
   return (
       <Box sx={{ p: 3 }}>
@@ -34,7 +133,7 @@ export default function CreateNote() {
             //   <SaveIcon />
             // )
           }
-          // onClick={handleSave}
+          onClick={handleSave}
           // disabled={createNoteMutation.isPending}
           size="large"
         >
@@ -53,9 +152,9 @@ export default function CreateNote() {
               label="Note Title"
               placeholder="Enter a descriptive title for your note"
               // value={noteData.title}
-              // onChange={handleTitleChange}
-              // error={!!errors.title}
-              // helperText={errors.title}
+              onChange={handleTitleChange}
+              error={!!errors.title}
+              helperText={errors.title}
               variant="outlined"
               sx={{
                 "& .MuiInputBase-input": {
@@ -67,11 +166,9 @@ export default function CreateNote() {
 
              <Paper sx={{ overflow: "hidden" }}>
               <MarkdownEditor
-              value=""
-              onChange={() => {}}
-                // value={noteData.content}
-                // onChange={handleContentChange}
-                // onSave={() => {}}
+                value={noteData.content}
+                onChange={handleContentChange}
+                onSave={() => {}}
                 placeholder="Start writing your note here... 
 
 You can use Markdown syntax:
@@ -92,20 +189,46 @@ The preview will appear on the right as you type."
         </Grid>
 
         <Grid item xs={12} lg={4}>
-          {/* <MetadataForm
+          <MetadataForm
             value={{
               summary: noteData.summary,
               keyPoints: noteData.keyPoints,
               tags: noteData.tags,
               sentiment: noteData.sentiment,
             }}
+
             onChange={handleMetadataChange}
-            title={noteData.title}
-            content={noteData.content}
-            errors={errors}
-          /> */}
+            // title={noteData.title}
+            // content={noteData.content}
+            // errors={errors}
+          />
         </Grid>
       </Grid>
+
+
+
+       <Snackbar
+        open={!!successMessage}
+        autoHideDuration={3000}
+        onClose={() => setSuccessMessage("")}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert severity="success" onClose={() => setSuccessMessage("")}>
+          {successMessage}
+        </Alert>
+      </Snackbar>
+
+      {/* Error Snackbar */}
+      <Snackbar
+        open={!!errorMessage}
+        autoHideDuration={6000}
+        onClose={() => setErrorMessage("")}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert severity="error" onClose={() => setErrorMessage("")}>
+          {errorMessage}
+        </Alert>
+      </Snackbar>
 
       </Box>
   )
