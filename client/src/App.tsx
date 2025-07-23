@@ -1,5 +1,6 @@
-import { Box, CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
+import { Box, CssBaseline, ThemeProvider, Typography } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import NotFound from './pages/NotFound';
 import Dashboard from "./pages/Dashboard";
 import AppLayout from "./components/layout/AppLayout";
@@ -7,8 +8,12 @@ import { theme } from "./ui/theme";
 import CreateNote from './pages/CreateNote';
 
 
+const queryClient = new QueryClient();
+
+
 function App() {
   return (
+  <QueryClientProvider client={queryClient}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Routes>
@@ -61,6 +66,7 @@ function App() {
         />
       </Routes>
    </ThemeProvider>
+   </QueryClientProvider>
   )
 }
 

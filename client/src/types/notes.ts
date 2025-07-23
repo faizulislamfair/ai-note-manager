@@ -11,7 +11,6 @@ export type Note = {
 };
 
 
-
 export type SentimentLabel = "positive" | "negative" | "neutral";
 
 
@@ -19,3 +18,8 @@ export type CreateNoteRequest = Omit<
   Note,
   "_id" | "userId" | "createdAt" | "updatedAt"
 >;
+
+
+export type UpdateNoteRequest = Partial<Note> & {
+  _id: string;
+};
