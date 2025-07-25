@@ -10,22 +10,18 @@ export type Note = {
     label: "positive" | "negative" | "neutral"; // User-provided label
   };
   userId: string;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
-
-
 
 export type CreateNoteRequest = Omit<
   Note,
   "_id" | "userId" | "createdAt" | "updatedAt"
 >;
 
-
 export type UpdateNoteRequest = Partial<Note> & {
   _id: string;
 };
-
 
 export type SearchRequest = {
   query?: string; // full-text search across content, summary, keyPoints
