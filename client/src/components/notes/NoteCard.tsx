@@ -66,7 +66,7 @@ const NoteCard = ({
   };
 
   const handleCardClick = () => {
-    navigate(`/notes/${note?._id}`);
+    // navigate(`/notes/${note?._id}`);
   };
 
   const handleEdit = (event: React.MouseEvent) => {
