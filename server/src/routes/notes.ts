@@ -139,7 +139,7 @@ router.post("/search", async (req: Request, res): Promise<void> => {
       limit,
       totalPages,
       hasNext: page < totalPages,
-      hasPrev: page > 1,
+      hasPrev: page > 1
     };
 
     res.json(searchResponse);
