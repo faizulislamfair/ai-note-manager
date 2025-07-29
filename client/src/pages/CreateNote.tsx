@@ -207,9 +207,9 @@ The preview will appear on the right as you type."
             }}
 
             onChange={handleMetadataChange}
-            // title={noteData.title}
-            // content={noteData.content}
-            // errors={errors}
+            title={noteData.title}
+            content={noteData.content}
+            errors={errors}
           />
         </Grid>
       </Grid>

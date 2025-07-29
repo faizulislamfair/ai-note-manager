@@ -8,7 +8,7 @@ import connectDB from "./db";
 import { requestLogger } from "./middlewares";
 
 
-import { noteRouter } from "./routes";
+import { aiRouter, noteRouter } from "./routes";
 
 
 const app = express();
@@ -43,7 +43,7 @@ app.get("/health", (_req, res) => {
 
 
 app.use("/api/notes", noteRouter);
-// app.use("/api/ai", aiRouter);
+app.use("/api/ai", aiRouter);
 
 
 app.listen(envConfig.PORT, () => {
